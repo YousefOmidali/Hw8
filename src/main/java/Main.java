@@ -3,6 +3,7 @@ import service.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -16,17 +17,19 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         ShoppingCard shoppingCard;
         String description;
-        Category category ;
+        Category category;
         Product product;
         String title;
+        User user;
         Admin admin;
         String name;
-        int order1;
+        int order1 = 0;
         int qtyBeforeBuy;
         int number;
         int price;
-        int role;
+        int role = 0;
         int qty;
+        int menu = 0;
         int id = 0;
         Customer customer;
         String username;
@@ -35,11 +38,14 @@ public class Main {
         String nationalCode;
         Date time = Date.valueOf(LocalDate.now());
 
-
-        System.out.println("1.Login \n2.Signup");
-        order1 = scanner.nextInt();
-        System.out.println("What are you? \n1.Customer \n2.Admin ");
-        role = scanner.nextInt();
+        try {
+            System.out.println("1.Login \n2.Signup");
+            order1 = scanner.nextInt();
+            System.out.println("What are you? \n1.Customer \n2.Admin ");
+            role = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Input mismatch exception");
+        }
         scanner.nextLine();
         if (order1 == 1 && role == 1) {
             System.out.println("Enter your username:");
@@ -50,14 +56,25 @@ public class Main {
             if (customer != null) {
                 System.out.println("1.show all products \n2.show product by Id \n3.show all categories" +
                         "\n4.show product by category Id \n5.show your orders \n6.buy product \n7.Exit ");
-                switch (scanner.nextInt()) {
+                try {
+                    menu = scanner.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Input mismatch exception");
+                }
+                switch (menu) {
                     case 1:
                         productService.findAll();
                         break;
 
                     case 2:
-                        System.out.println("Enter product's Id: ");
-                        System.out.println(productService.findById(scanner.nextInt()).toString());
+                        try {
+                            System.out.println("Enter product's Id: ");
+                            System.out.println(productService.findById(scanner.nextInt()).toString());
+                        } catch (InputMismatchException e) {
+                            System.out.println("Input mismatch exception");
+                        } catch (NullPointerException e) {
+                            System.out.println("Null pointer exception");
+                        }
                         break;
 
                     case 3:
@@ -65,37 +82,54 @@ public class Main {
                         break;
 
                     case 4:
-                        System.out.println("Enter category id: ");
-                        System.out.println(categoryService.findById(scanner.nextInt()));
+                        try {
+                            System.out.println("Enter category id: ");
+                            System.out.println(categoryService.findById(scanner.nextInt()));
+                        } catch (InputMismatchException e) {
+                            System.out.println("Input mismatch exception");
+                        } catch (NullPointerException e) {
+                            System.out.println("Null pointer exception");
+                        }
                         break;
 
                     case 5:
-                        customerService.findShoppingCardByUserId(customer.getId());
+                        try {
+                            customerService.findShoppingCardByUserId(customer.getId());
+                        } catch (InputMismatchException e) {
+                            System.out.println("Input mismatch exception");
+                        } catch (NullPointerException e) {
+                            System.out.println("Null pointer exception");
+                        }
                         break;
 
                     case 6:
-                        System.out.println("Enter id of product: ");
-                        id = scanner.nextInt();
-                        System.out.println("Enter your Id: ");
-                        customer=new Customer(scanner.nextInt());
-                        System.out.println(customer);
-                        System.out.println("How many you want? ");
-                        number = scanner.nextInt();
-                        product = productService.findById(id);
-                        if (number < product.getQty()) {
-                            qtyBeforeBuy=product.getQty();
-                            System.out.println("do you want to pay? \n1.YES  2.NO ");
-                            int order2 = scanner.nextInt();
-                            time = Date.valueOf(LocalDate.now());
-                            if (order2 == 1) {
-                                shoppingCard = new ShoppingCard(time, true);
-                            } else shoppingCard = new ShoppingCard(time, false);
-                            Order order = new Order(product, customer,shoppingCard);
-                            orderService.save(order);
-                            System.out.println("Done ");
-                            product.setQty(qtyBeforeBuy-number);
-                            productService.update(product);
-                        } else System.out.println("out of qty! ");
+                        try {
+                            System.out.println("Enter id of product: ");
+                            id = scanner.nextInt();
+                            System.out.println(customer);
+                            System.out.println("How many you want? ");
+                            number = scanner.nextInt();
+                            product = productService.findById(id);
+                            if (number < product.getQty()) {
+                                qtyBeforeBuy = product.getQty();
+                                System.out.println("do you want to pay? \n1.YES  2.NO ");
+                                int order2 = scanner.nextInt();
+                                time = Date.valueOf(LocalDate.now());
+                                if (order2 == 1) {
+                                    shoppingCard = new ShoppingCard(time, true);
+                                } else shoppingCard = new ShoppingCard(time, false);
+                                Order order = new Order(product, customer, shoppingCard);
+                                orderService.save(order);
+                                System.out.println("Done ");
+                                product.setQty(qtyBeforeBuy - number);
+                                productService.update(product);
+                            } else System.out.println("out of qty! ");
+                        } catch (InputMismatchException e) {
+                            System.out.println("Input mismatch exception");
+                        } catch (NullPointerException e) {
+                            System.out.println("Null pointer exception");
+                        }
+
                         break;
                     case 7:
                         break;
@@ -184,7 +218,7 @@ public class Main {
                             System.out.println("Enter FatherCategory id: ");
                             id = scanner.nextInt();
                         }
-                        category = new Category(id,title, description);
+                        category = new Category(id, title, description);
                         categoryService.save(category);
                         System.out.println("Done");
                         break;

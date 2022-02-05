@@ -3,17 +3,15 @@ package entity;
 public class Customer extends User{
 
     private String address;
-    private String username;
-    private String password;
-    private Integer Id;
 
-    public Customer(Integer Id){
-        this.Id=Id;
+    public Customer(int id) {
+        super(id);
     }
 
-    public Customer(String address) {
-        this.address = address;
-    }
+
+   // public Customer(String address) {
+   //     this.address = address;
+   // }
 
     public Customer(int id, String username, String password, String address) {
         super(id, username, password);
@@ -40,5 +38,4 @@ public class Customer extends User{
                 "address='" + address + '\'' +
                 '}';
     }
-
 }

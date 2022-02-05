@@ -9,9 +9,9 @@ public class Admin extends User{
         this.nationalCode = nationalCode;
     }
 
-    public Admin(String nationalCode) {
-        this.nationalCode = nationalCode;
-    }
+  //  public Admin(String nationalCode) {
+  //      this.nationalCode = nationalCode;
+  //  }
 
     public Admin(int id, String username, String password, String nationalCode) {
         super(id, username, password);

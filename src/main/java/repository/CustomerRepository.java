@@ -98,7 +98,7 @@ public class CustomerRepository implements CustomerInterface{
 
     @Override
     public List<ShoppingCard> findShoppingCardByUserId(int customerId) {
-        String findShoppingCardByUserId = "select * from customer inner join \"order\" o on customer.id = o.customer_id \n" +
+        String findShoppingCardByUserId = "select * from customer inner join order1 o on customer.id = o.customer_id \n" +
                 "    inner join shopping_card sc on o.shopping_card_id = sc.id \n" +
                 "    inner join product p on p.id = o.product_id where customer.id = ? ;";
         List<ShoppingCard> shoppingCardList = new ArrayList<>();
