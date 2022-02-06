@@ -123,7 +123,7 @@ public class Main {
                                 orderService.save(order);
                                 System.out.println("whats your shoppingCard Id ?");
                                 shoppingCard.setId(scanner.nextInt());
-                                order =new Order (product,customer,shoppingCard);
+                                order = new Order(product, customer, shoppingCard);
                                 orderService.update(order);
                                 System.out.println("Done ");
                                 product.setQty(qtyBeforeBuy - number);
@@ -173,70 +173,75 @@ public class Main {
             if (admin != null) {
                 System.out.println("1.add product \n2.update product by Id \n3.Delete a Product" +
                         "\n4.Add Category \n5.delete category \n6.Exit ");
-                switch (scanner.nextInt()) {
-                    case 1:
-                        scanner.nextLine();
-                        System.out.println("enter product's name:");
-                        name = scanner.nextLine();
-                        System.out.println("enter product's description: ");
-                        description = scanner.nextLine();
-                        System.out.println("enter category id: ");
-                        id = scanner.nextInt();
-                        System.out.println("enter quantity of products: ");
-                        qty = scanner.nextInt();
-                        System.out.println("enter product's price: ");
-                        price = scanner.nextInt();
-                        category = new Category(id);
-                        product = new Product(name, description, category, qty, price);
-                        productService.save(product);
-                        System.out.println("Done! ");
-                        break;
-                    case 2:
-                        System.out.println("Enter product id: ");
-                        product = productService.findById(scanner.nextInt());
-                        System.out.println(product);
-                        System.out.println("enter product Quantity: ");
-                        product.setQty(scanner.nextInt());
-                        scanner.nextLine();
-                        System.out.println("enter new Description: ");
-                        product.setDescription(scanner.nextLine());
-                        System.out.println("enter new price: ");
-                        product.setPrice(scanner.nextInt());
-                        productService.update(product);
-                        System.out.println("Done");
-                        break;
-
-                    case 3:
-                        System.out.println("Enter product id: ");
-                        productService.delete(scanner.nextInt());
-                        System.out.println("product deleted! ");
-                        break;
-                    case 4:
-                        categoryService.findAll();
-                        scanner.nextLine();
-                        System.out.println("Enter Category title: ");
-                        title = scanner.nextLine();
-                        System.out.println("Enter Category description: ");
-                        description = scanner.nextLine();
-                        System.out.println("Is it sub category? 1.Yes  2.No");
-                        if (scanner.nextInt() == 1) {
-                            System.out.println("Enter FatherCategory id: ");
+                try {
+                    switch (scanner.nextInt()) {
+                        case 1:
+                            scanner.nextLine();
+                            System.out.println("enter product's name:");
+                            name = scanner.nextLine();
+                            System.out.println("enter product's description: ");
+                            description = scanner.nextLine();
+                            System.out.println("enter category id: ");
                             id = scanner.nextInt();
-                        }
-                        category = new Category(id, title, description);
-                        categoryService.save(category);
-                        System.out.println("Done");
-                        break;
+                            System.out.println("enter quantity of products: ");
+                            qty = scanner.nextInt();
+                            System.out.println("enter product's price: ");
+                            price = scanner.nextInt();
+                            category = new Category(id);
+                            product = new Product(name, description, category, qty, price);
+                            productService.save(product);
+                            System.out.println("Done! ");
+                            break;
+                        case 2:
+                            System.out.println("Enter product id: ");
+                            product = productService.findById(scanner.nextInt());
+                            System.out.println(product);
+                            System.out.println("enter product Quantity: ");
+                            product.setQty(scanner.nextInt());
+                            scanner.nextLine();
+                            System.out.println("enter new Description: ");
+                            product.setDescription(scanner.nextLine());
+                            System.out.println("enter new price: ");
+                            product.setPrice(scanner.nextInt());
+                            productService.update(product);
+                            System.out.println("Done");
+                            break;
 
-                    case 5:
-                        System.out.println("Enter category id: ");
-                        categoryService.delete(scanner.nextInt());
-                        System.out.println("Done! ");
-                        break;
+                        case 3:
+                            System.out.println("Enter product id: ");
+                            productService.delete(scanner.nextInt());
+                            System.out.println("product deleted! ");
+                            break;
+                        case 4:
+                            categoryService.findAll();
+                            scanner.nextLine();
+                            System.out.println("Enter Category title: ");
+                            title = scanner.nextLine();
+                            System.out.println("Enter Category description: ");
+                            description = scanner.nextLine();
+                            System.out.println("Is it sub category? 1.Yes  2.No");
+                            if (scanner.nextInt() == 1) {
+                                System.out.println("Enter FatherCategory id: ");
+                                id = scanner.nextInt();
+                            }
+                            category = new Category(id, title, description);
+                            categoryService.save(category);
+                            System.out.println("Done");
+                            break;
 
-                    case 6:
-                        break;
+                        case 5:
+                            System.out.println("Enter category id: ");
+                            categoryService.delete(scanner.nextInt());
+                            System.out.println("Done! ");
+                            break;
 
+                        case 6:
+                            break;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Input mismatch exception");
+                } catch (NullPointerException e) {
+                    System.out.println("Null pointer exception");
                 }
             }
         }
