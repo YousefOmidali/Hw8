@@ -19,7 +19,7 @@ public class OrderRepository implements BaseRepository<Order> {
             PreparedStatement preparedStatement = connection.prepareStatement(insert);
             preparedStatement.setInt(1, order.getProduct().getId());
             preparedStatement.setInt(2, order.getCustomer().getId());
-          //  preparedStatement.setInt(3,order.getShoppingCard().getId() );
+           // preparedStatement.setInt(3,order.getShoppingCard().getId() );
             preparedStatement.execute();
             preparedStatement.close();
         } catch (
@@ -30,12 +30,15 @@ public class OrderRepository implements BaseRepository<Order> {
 
     @Override
     public void update(Order order) {
-        String update = "update order1 set product_id=?,customer_id=?,shopping_card_id=?; ";
+        String update = "update order1 set product_id=?,customer_id=?,shopping_card_id=? " +
+                "where product_id = ? and customer_id = ? ";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(update);
             preparedStatement.setInt(1, order.getProduct().getId());
             preparedStatement.setInt(2, order.getCustomer().getId());
             preparedStatement.setInt(3,order.getShoppingCard().getId() );
+            preparedStatement.setInt(4,order.getProduct().getId() );
+            preparedStatement.setInt(5,order.getCustomer().getId());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {

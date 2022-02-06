@@ -93,7 +93,7 @@ public class Main {
                         break;
 
                     case 5:
-                        try {
+                        try { //*********************************** ba gereftan adad az voroodi dorost mishe
                             customerService.findShoppingCardByUserId(customer.getId());
                         } catch (InputMismatchException e) {
                             System.out.println("Input mismatch exception");
@@ -106,10 +106,10 @@ public class Main {
                         try {
                             System.out.println("Enter id of product: ");
                             id = scanner.nextInt();
-                            System.out.println(customer);
                             System.out.println("How many you want? ");
                             number = scanner.nextInt();
                             product = productService.findById(id);
+                            System.out.println(product);
                             if (number < product.getQty()) {
                                 qtyBeforeBuy = product.getQty();
                                 System.out.println("do you want to pay? \n1.YES  2.NO ");
@@ -118,8 +118,13 @@ public class Main {
                                 if (order2 == 1) {
                                     shoppingCard = new ShoppingCard(time, true);
                                 } else shoppingCard = new ShoppingCard(time, false);
-                                Order order = new Order(product, customer, shoppingCard);
+                                shoppingCardService.save(shoppingCard);
+                                Order order = new Order(product, customer);
                                 orderService.save(order);
+                                System.out.println("whats your shoppingCard Id ?");
+                                shoppingCard.setId(scanner.nextInt());
+                                order =new Order (product,customer,shoppingCard);
+                                orderService.update(order);
                                 System.out.println("Done ");
                                 product.setQty(qtyBeforeBuy - number);
                                 productService.update(product);

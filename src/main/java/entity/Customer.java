@@ -23,6 +23,11 @@ public class Customer extends User{
         this.address = address;
     }
 
+    public Customer(String username, String password,String address, int id) {
+        super(username, password, id);
+        this.address = address;
+    }
+
 
     public String getAddress() {
         return address;
@@ -36,6 +41,9 @@ public class Customer extends User{
     public String toString() {
         return "Customer{" +
                 "address='" + address + '\'' +
+                "username='" + getUsername() + '\'' +
+                "password='" + getPassword() + '\'' +
+                "id='" + getId() + '\'' +
                 '}';
     }
 }

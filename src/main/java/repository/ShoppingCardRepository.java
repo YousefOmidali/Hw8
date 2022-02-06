@@ -84,7 +84,8 @@ public class ShoppingCardRepository implements BaseRepository<ShoppingCard> {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                shoppingCard = new ShoppingCard(resultSet.getDate("date"),
+                shoppingCard = new ShoppingCard(resultSet.getInt("id"),
+                        resultSet.getDate("date"),
                         resultSet.getBoolean("payed"));
             }
         } catch (SQLException e) {

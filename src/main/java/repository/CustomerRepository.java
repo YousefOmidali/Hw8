@@ -129,7 +129,8 @@ public class CustomerRepository implements CustomerInterface{
             if (resultSet.next()) {
                 customer = new Customer(resultSet.getString("username"),
                         resultSet.getString("password"),
-                        resultSet.getString("address"));
+                        resultSet.getString("address"),
+                        resultSet.getInt("id"));
             }
         } catch (SQLException e) {
             System.out.println("failed to Login");
